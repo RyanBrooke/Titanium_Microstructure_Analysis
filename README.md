@@ -16,7 +16,7 @@ Two scripts are provided which converts grayscale micrographs patches into clean
 It is advised to begin with at least 5 mask/segments for ground truth training, but iteration on poorly identified sections will likely be required until a desired accuracy. Similarly, multiple masks/segments should be taken from different contrasted images if included in the implementation dataset. 
 
 ### 3.	Model training
-The U-net model is trained on paired segments and masks. The U-net training uses the open-source segmentation models available with Pytorch. The supplied implementation uses the resnet18 encoder, 3 channels in each decoder layer and 1 output class. It uses 75 epochs for iteration and saves the model weights for the model implementation.
+The U-net model is trained on paired segments and masks. The U-net training uses the open-source segmentation models available with Pytorch. The supplied implementation uses the resnet18 encoder, 3 channels in each decoder layer and 1 output class. It uses 100 epochs for iteration and saves the model weights for the model implementation.
 
 ### 4.	Model implementation
 SEM micrographs should be prepared by cropping to remove information panels. The model is implemented using test-time augmentation (TTA) creating four versions of the micrograph (original, horizontal flip, vertical flip and 180° rotation) and the final mask and measures calculated as the average. Scale is set for the measurement of the lath intercept widths. The script provides the alpha phase fraction, average α-lath width (from skeletonization), the mean linear intercept (MLI) of α+β phases, the length of line for the intercept method and the total number of intercepts. The MLI is calculated from 100 random lines overlaid on the micrographs. 
