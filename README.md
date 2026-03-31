@@ -2,14 +2,6 @@
 
 This repository is provided as a step-by-step guide to train a U-net within a python environment for the purpose of extracting microstructural data from α+β titanium alloys. Once trained, the model implementation will provide the α-phase fraction, average α-lath width and average phase transition width using an intersection method. 
 
-## Abstract
-Microstructural characteristics play a significant role in the mechanical properties of metals. The scale and morphology of secondary phases significantly affect strength, ductility, fatigue, isotropy, fracture and impact toughness. Quantifying characteristics of the secondary phase can be important in designing for desired mechanical properties and can dictate manufacturing and processing. A specific case exists in α+β titanium alloys, where α and β phase fraction along with α-lath width will dictate subsequent properties [1, 2]. A standard exists for the quantification of α-lath width (ASTM E112), however is based on arduous grid placements and intercept counts. Karra et al. [3] suggests a more automated method, using OpenCV within the Python environment to filter the images and then provide a measurement of the average α lath width. This method requires tuning of filter parameters, such as denoising and thresholding settings which are dependent on the quality and contrast of the input images. 
-
-Mongkhonthanaphon and Limpiyakorn [4] demonstrate the applicability and accuracy of using a U-net in segmenting microstructure of Ti-6Al-4V. The U-net was originally designed for biomedical image segmentation and found to require much fewer annotated training samples [5]. Microstructure can resemble biological cell structures and is therefore a prime candidate for similar image segmentation techniques.
-
-This repository is provided as a step-by-step guide to train a U-net within a python environment for the purpose of extracting microstructural data from α+β titanium alloys. The benefit of this following method is that while bulk thresholding can work generally well when tuned correctly, its accuracy drops significantly once variability is introduced to the input micrographs. The U-Net method solves this by allowing for training on image sections with varying morphology and contrast, leading to much higher accuracy and robust identification.
-
-This methodology uses small segments of micrographs, carefully threshold to create matching mask files, to train a fully convoluted neural network architecture for semantic image segmentation, a U-net. It has been found that with the careful selection of training segments, this method is more robust and requires less tuning than previous methods. This mitigates much of the inconsistency associated with tuning parameters, instead this method trains the U-net to recognize morphology from different contrasted images through iteration of training. 
 
 ## Methodology
 ### 1.	Training data preparation
@@ -27,7 +19,9 @@ It is advised to begin with at least 5 mask/segments for ground truth training, 
 The U-net model is trained on paired segments and masks. The U-net training uses the open-source segmentation models available with Pytorch. The supplied implementation uses the resnet18 encoder, 3 channels in each decoder layer and 1 output class. It uses 75 epochs for iteration and saves the model weights for the model implementation.
 
 ### 4.	Model implementation
- SEM micrographs should be prepared by cropping to remove information panels. Scale is set for the measurement of the lath intercept widths. The script provides the alpha phase fraction, average α-lath width, the average distance between intercepts of α+β phases, the length of line for the intercept method and the total number of intercepts. The average α-lath width uses skeletonization to find the width of each lath to average. The average width between phases is calculated from 100 random lines overlaid on the micrographs. This data is saved as a csv file.
+SEM micrographs should be prepared by cropping to remove information panels. The model is implemented using test-time augmentation (TTA) creating four versions of the micrograph (original, horizontal flip, vertical flip and 180° rotation) and the final mask and measures calculated as the average. Scale is set for the measurement of the lath intercept widths. The script provides the alpha phase fraction, average α-lath width (from skeletonization), the mean linear intercept (MLI) of α+β phases, the length of line for the intercept method and the total number of intercepts. The MLI is calculated from 100 random lines overlaid on the micrographs. 
+A confidence measure for each model prediction is provided, calculated by the variance of prediction using the TTA. Data is saved as a .csv file.
+As secondary .csv file is provided which has calculations for the average of the measurement across the file directory. Similarly, this provides the standard deviation, 95% confidence interval and a relative accuracy as highlight by ASTM E112-3.
 The script saves the converted micrographs into processed masks. 
 
 ## Python Library Requirements 
@@ -41,22 +35,12 @@ pandas
 
 segmentation-models-pytorch
 
+scipy.stats
+
 ## Contact Information
 Email: ryan.brooke@rmit.edu.au
 
 Linkedin: Ryan Brooke
 
-
-## References
-
-[1]	S. Sadeghpour, S. M. Abbasi, M. Morakabati, and S. Bruschi, "Correlation between alpha phase morphology and tensile properties of a new beta titanium alloy," Materials & Design, vol. 121, pp. 24-35, 2017/05/05/ 2017, doi: https://doi.org/10.1016/j.matdes.2017.02.043.
-
-[2]	D. H. Kohn and P. Ducheyne, "Tensile and fatigue strength of hydrogen-treated Ti-6Al-4V alloy," Journal of Materials Science, vol. 26, no. 2, pp. 328-334, 1991/01/01 1991, doi: 10.1007/BF00576523.
-
-[3]	V. S. S. A. Karra, A. K. Verma, A. Guzel, A. Huck, and A. D. Rollett, "Quantification of Alpha Lath in Ti-6Al-4V using OpenCV," Materials Characterization, vol. 186, p. 111802, 2022/04/01/ 2022, doi: https://doi.org/10.1016/j.matchar.2022.111802.
-
-[4]	S. Mongkhonthanaphon and Y. Limpiyakorn, "A Deep Neural Network for Pixel-Wise Classification of Titanium Microstructure," International Journal of Machine Learning and Computing, vol. 10, pp. 128-133, 01/01 2020, doi: 10.18178/ijmlc.2020.10.1.909.
-
-[5]	O. Ronneberger, P. Fischer, and T. Brox, "U-Net: Convolutional Networks for Biomedical Image Segmentation," in Medical Image Computing and Computer-Assisted Intervention – MICCAI 2015, Cham, N. Navab, J. Hornegger, W. M. Wells, and A. F. Frangi, Eds., 2015// 2015: Springer International Publishing, pp. 234-241. 
 
  
