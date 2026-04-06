@@ -19,7 +19,7 @@ It is advised to begin with at least 5 mask/segments for ground truth training, 
 The U-net model is trained on paired segments and masks. The U-net training uses the open-source segmentation models available with Pytorch. The supplied implementation uses the resnet18 encoder, 3 channels in each decoder layer and 1 output class. It uses 100 epochs for iteration and saves the model weights for the model implementation.
 
 ### 4.	Model implementation
-SEM micrographs should be prepared by cropping to remove information panels. The model is implemented using test-time augmentation (TTA) creating four versions of the micrograph (original, horizontal flip, vertical flip and 180° rotation) and the final mask and measures calculated as the average. Scale is set for the measurement of the lath intercept widths. The script provides the alpha phase fraction, average α-lath width (from skeletonization), the mean linear intercept (MLI) of α+β phases, the length of line for the intercept method and the total number of intercepts. The MLI is calculated from 100 random lines overlaid on the micrographs. 
+SEM micrographs should be prepared by cropping to remove information panels. The model is implemented using test-time augmentation (TTA) creating four versions of the micrograph (original, horizontal flip, vertical flip and 180° rotation) and the final mask and measures calculated as the average. Scale is set for the measurement of the lath intercept widths. The script provides the alpha phase fraction, average α-lath width (from skeletonization), a sterologically adjusted measure of 3D α-lath width (based off [1]), the mean linear intercept (MLI) of α+β phase transitions, the length of line for the intercept method and the total number of intercepts. The sterologically adjusted 3D α-lath width and MLI are calculated from 100 random lines overlaid on the micrographs. 
 A confidence measure for each model prediction is provided, calculated by the variance of prediction using the TTA. Data is saved as a .csv file.
 As secondary .csv file is provided which has calculations for the average of the measurement across the file directory. Similarly, this provides the standard deviation, 95% confidence interval and a relative accuracy as highlight by ASTM E112-3.
 The script saves the converted micrographs into processed masks. 
@@ -42,5 +42,6 @@ Email: ryan.brooke@rmit.edu.au
 
 Linkedin: Ryan Brooke
 
-
+## Reference 
+[1] V. S. S. A. Karra, A. K. Verma, A. Guzel, A. Huck, and A. D. Rollett, "Quantification of Alpha Lath in Ti-6Al-4V using OpenCV," Materials Characterization, vol. 186, p. 111802, 2022/04/01/ 2022, doi: https://doi.org/10.1016/j.matchar.2022.111802
  
