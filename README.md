@@ -44,8 +44,11 @@ Linkedin: Ryan Brooke
 
 ## Disclosure 
 This repository utilizes code generated and/or optimized with the assistance of Google Gemini 1.5 Pro.
+
 Scope of Assistance: Gemini was used to assist with U-Net architecture implementation, code refinement and debugging.
+
 Human Oversight: All AI-generated suggestions have been manually reviewed, tested, and integrated by the author. 
+
 Purpose: AI tools were used as a pair-programmer to accelerate development and improve code readability.
 
 ## Reference 
