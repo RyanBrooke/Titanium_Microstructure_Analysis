@@ -42,6 +42,12 @@ Email: ryan.brooke@rmit.edu.au
 
 Linkedin: Ryan Brooke
 
+## Disclosure 
+This repository utilizes code generated and/or optimized with the assistance of Google Gemini 1.5 Pro.
+Scope of Assistance: Gemini was used to assist with U-Net architecture implementation, code refinement and debugging.
+Human Oversight: All AI-generated suggestions have been manually reviewed, tested, and integrated by the author. 
+Purpose: AI tools were used as a pair-programmer to accelerate development and improve code readability.
+
 ## Reference 
 [1] V. S. S. A. Karra, A. K. Verma, A. Guzel, A. Huck, and A. D. Rollett, "Quantification of Alpha Lath in Ti-6Al-4V using OpenCV," Materials Characterization, vol. 186, p. 111802, 2022/04/01/ 2022, doi: https://doi.org/10.1016/j.matchar.2022.111802
  
